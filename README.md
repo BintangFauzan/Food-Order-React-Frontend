@@ -79,7 +79,7 @@ Aplikasi Food Order berbasis React untuk kebutuhan restoran, dengan fitur admin 
 ---
 
 ## 👨‍💻 Kontributor
-- [Nama Anda]
+- Bintang Fauzan Dyan
 
 ---
 
