@@ -1,0 +1,31 @@
+@import "tailwindcss";
+@plugin "flowbite-react/plugin/tailwindcss";
+@source "../.flowbite-react/class-list.json";
+
+.notification {
+    position: fixed; /* Mengubah absolute menjadi fixed */
+    top: 2rem;
+    right: 2rem; /* Mengurangi jarak dari kanan agar tidak terlalu jauh */
+    padding: 1rem;
+    border-radius: 4px;
+    background: rgba(118, 234, 189, 0.9);
+    color: black;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    animation: fade-in-from-right 0.5s ease-out forwards;
+}
+
+.notification p {
+    margin: 0;
+}
+
+@keyframes fade-in-from-right {
+    from {
+        opacity: 0;
+        transform: translateX(20px); /* Mulai dari kanan sedikit dan transparan */
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0); /* Berakhir di posisi normal */
+    }
+}
