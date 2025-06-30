@@ -64,6 +64,38 @@ export default function FoodsContextProvider({children}){
     }
 }
 
+const deleteDataMakanan =  async (id, onSuccess, onError) => {
+    setLoading(true)
+    try{
+         await axios.delete(`http://localhost:8000/api/foods/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("authToken")}`
+            }
+        })
+        setNotification(true)
+        setNotificationMessage("Berhasil menghapus data makanan")
+        setTimeout(() => setNotification(false), 3000)
+        setRefreshData(true)
+        if (onSuccess) onSuccess();
+    }catch (err) {
+        let errorMessage = "Terjadi kesalahan saat menghapus data makanan";
+        if (err.response){
+            if(err.response.status === 403){
+                errorMessage = "Akses ditolak. Anda tidak memiliki permission.";
+            }else if (err.response.data && err.response.data.message) {
+                errorMessage = err.response.data.message;
+            }
+        }else if (err.request) {
+            errorMessage = "Tidak dapat terhubung ke server. Periksa koneksi internet Anda.";
+        }
+        setNotification(true)
+        setNotificationMessage(errorMessage)
+        if(onError) onError(errorMessage);
+    }finally {
+        setLoading(false)
+    }
+}
+
 function handleEditBarang(id) {
     setEditBarangId(id);
 }
@@ -80,6 +112,7 @@ const selectedDataFoodId = dataFoods.find(food => food.id === editBarangId);
         handleEditBarang,
         editBarangId,
         selectedDataFoodId,
+        deleteDataMakanan,
     }
     
 

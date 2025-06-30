@@ -17,15 +17,12 @@ export default function FoodsPageAdmin() {
     setOpenModalAddData(false)
   }
 
-  
-
   return(
     <FoodsContextProvider>
     <HeaderAdmin/>
       <ModalDialog isModalOpen={openModalAddData}>
        <FormSubmitAdmin onCloseModal={handleCloseModalForm}/>
       </ModalDialog>
-
       <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-red-100 via-yellow-50 to-green-100">
         <div className="w-full max-w-5xl overflow-x-auto shadow-lg rounded-lg bg-white/90 p-6 border border-red-200">
          <ButtonComponents onClick={handleOpenModal}>Tambah Data</ButtonComponents>
@@ -45,7 +42,7 @@ export default function FoodsPageAdmin() {
               </TableRow>
             </TableHead>
             <TableBody className="divide-y">
-              <TableCellAdmin/>
+              <TableCellAdmin />
             </TableBody>
           </Table>
         </div>
