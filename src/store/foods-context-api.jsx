@@ -11,7 +11,6 @@ export default function FoodsContextProvider({children}){
     const [notification, setNotification] = useState(false)
     const [notificationMessage, setNotificationMessage] = useState('')
 
-
     useEffect(() => {
         const fetctData = async () => {
             setLoading(true)
@@ -58,6 +57,8 @@ export default function FoodsContextProvider({children}){
         }
         setNotification(true)
         setNotificationMessage(errorMessage)
+        setTimeout(() => setNotification(false), 5000)
+        console.error("Error adding food:", err.response?.data || err.message);
         if(onError) onError(errorMessage);
     }finally {
         setLoading(false)
@@ -90,6 +91,62 @@ const deleteDataMakanan =  async (id, onSuccess, onError) => {
         }
         setNotification(true)
         setNotificationMessage(errorMessage)
+        setTimeout(() => setNotification(false), 5000)
+        console.error("Error deleting food:", err.response?.data || err.message);
+        if(onError) onError(errorMessage);
+    }finally {
+        setLoading(false)
+    }
+}
+
+ const editDataMakanan = async (id, formData, onSuccess, onError) =>{
+        setLoading(true)
+        
+        // Debug: Log data yang akan dikirim
+        console.log('Editing food with ID:', id);
+        console.log('FormData contents:');
+        for (let [key, value] of formData.entries()) {
+            console.log(`${key}:`, value);
+        }
+        
+        try{
+            // Agar FormData terbaca di Laravel, gunakan POST + _method=PUT
+            formData.append('_method', 'PUT');
+            const response = await axios.post(`http://localhost:8000/api/foods/${id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+                }
+            })
+            
+            console.log('Edit response:', response.data);
+            
+            setNotification(true)
+            setNotificationMessage("Berhasil mengubah data makanan")
+            setTimeout(() => setNotification(false), 3000)
+            setRefreshData(true)
+            if (onSuccess) onSuccess();
+        }catch (err) {
+            console.error("Full error object:", err);
+            console.error("Error response:", err.response?.data);
+            
+            let errorMessage = "Terjadi kesalahan saat mengubah data makanan";
+            if (err.response){
+               if(err.response.status === 422){
+                const validationErrors = err.response.data.errors || {};
+                errorMessage = "Validation Error: " + Object.values(validationErrors).flat().join(', ');
+                console.error("Validation errors:", validationErrors);
+            }else if(err.response.status === 403){
+                errorMessage = "Akses ditolak. Anda tidak memiliki permission.";
+            }else if (err.response.data && err.response.data.message) {
+                errorMessage = err.response.data.message;
+            }
+        }else if (err.request) {
+            errorMessage = "Tidak dapat terhubung ke server. Periksa koneksi internet Anda.";
+        }
+        setNotification(true)
+        setNotificationMessage(errorMessage)
+        setTimeout(() => setNotification(false), 5000)
         if(onError) onError(errorMessage);
     }finally {
         setLoading(false)
@@ -113,6 +170,7 @@ const selectedDataFoodId = dataFoods.find(food => food.id === editBarangId);
         editBarangId,
         selectedDataFoodId,
         deleteDataMakanan,
+        editDataMakanan,
     }
     
 
