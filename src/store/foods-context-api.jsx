@@ -5,6 +5,7 @@ export const FoodsContext = createContext()
 
 export default function FoodsContextProvider({children}){
     const [dataFoods, setDataFoods] = useState([])
+    const [openModalPesanMakanan, setOpenModalPesanMakanan] = useState(false)
     const [editBarangId, setEditBarangId] = useState(null)
     const [loading, setLoading] = useState(false)
     const [refreshData, setRefreshData] = useState(false)
@@ -157,6 +158,10 @@ function handleEditBarang(id) {
     setEditBarangId(id);
 }
 
+function handleOpenModalMakanan() {
+    setOpenModalPesanMakanan(true);
+}
+
 const selectedDataFoodId = dataFoods.find(food => food.id === editBarangId);
 
     const contextValue = {
@@ -171,6 +176,8 @@ const selectedDataFoodId = dataFoods.find(food => food.id === editBarangId);
         selectedDataFoodId,
         deleteDataMakanan,
         editDataMakanan,
+        handleOpenModalMakanan,
+        openModalPesanMakanan,
     }
     
 

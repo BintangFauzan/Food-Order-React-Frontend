@@ -1,13 +1,24 @@
 import Sate from "../assets/Sate.jpg";
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import {FoodsContext} from "../store/foods-context-api.jsx";
+import ModalDialog from "./ModalDIalog.jsx";
 
 export default function MenuRestaurant(){
     const {dataFoods} = useContext(FoodsContext)
+    const[openModalCart, setOpenModalCart] = useState(false)
     console.log('data makanan: ', dataFoods)
     const BACKEND_URL = 'http://localhost:8000';
+
+    function handleOpenModalCart() {
+        setOpenModalCart(true);
+    }
+    console.log(openModalCart)
     return(
         <>
+        <ModalDialog isOpen={openModalCart} onClose={() => setOpenModalCart(false)}>
+            <h2 className='text-2xl font-bold mb-4'>Keranjang Belanja</h2>
+            {/* Daftar item dalam keranjang */}
+        </ModalDialog>
             <h2 className='text-3xl font-bold text-center text-gray-800 mb-10'>Our Delicious Menu</h2>
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8'>
                 {dataFoods.map((foods) => (
@@ -22,9 +33,12 @@ export default function MenuRestaurant(){
                             <p className='text-gray-600 text-sm mb-4'>
                                 {foods.description}
                             </p>
+                             <p className={foods.is_available ? 'text-green-600 font-bold' : 'text-red-600 font-bold'}>
+                                {foods.is_available ? 'Tersedia' : 'Tidak Tersedia'}
+                            </p>
                             <div className='flex justify-between items-center'>
-                                <span className='text-lg font-bold text-yellow-600'>Rp 25.000</span>
-                                <button className='bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-2 px-4 rounded-full text-sm'>
+                                <span className='text-lg font-bold text-yellow-600'>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(foods.price)}</span>
+                                <button className='bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-2 px-4 rounded-full text-sm' onClick={handleOpenModalCart}>
                                     Add to Cart
                                 </button>
                             </div>

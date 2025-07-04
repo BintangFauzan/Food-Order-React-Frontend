@@ -100,8 +100,6 @@ export default function TableCellAdmin() {
     });
   }
 
-  const selectedFoodId = dataFoods.find(food => food.id === foodIdToEdit);
-
   const handleOpenModalHapus = (foodId) => {
     setOpenModalHapusData(true);
     setFoodIdToDelete(foodId);
@@ -184,7 +182,7 @@ export default function TableCellAdmin() {
           </TableCell>
           <TableCell className="text-center align-middle py-4 px-2 border-b border-gray-200">{food.name}</TableCell>
           <TableCell className="text-center align-middle py-4 px-2 border-b border-gray-200">{food.description}</TableCell>
-          <TableCell className="text-center align-middle py-4 px-2 border-b border-gray-200">Rp {food.price.toLocaleString('id-ID')}</TableCell>
+          <TableCell className="text-center align-middle py-4 px-2 border-b border-gray-200">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(food.price)}</TableCell>
           <TableCell className="text-center align-middle py-4 px-2 border-b border-gray-200">
             <div className="flex justify-center items-center">
               <img
