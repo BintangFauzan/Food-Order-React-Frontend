@@ -46,11 +46,10 @@ Aplikasi Food Order berbasis React untuk kebutuhan restoran, dengan fitur admin 
 - Menambah UX: disable tombol saat loading
 
 ### Minggu 5
-- Implementasi fitur edit data makanan (admin).
-- Implementasi fitur hapus data makanan (admin).
-- Implementasi fitur checkout untuk customer.
-- Penambahan logika manajemen keranjang belanja (tambah, kurang, hapus item).
+- Penambahan fitur edit data makanan (rencana)
+- Penambahan fitur hapus data makanan (rencana)
 - Penambahan halaman customer (rencana)
+- Penambahan fitur checkout (rencana)
 
 ---
 
