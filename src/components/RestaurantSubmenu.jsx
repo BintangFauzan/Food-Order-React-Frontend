@@ -1,4 +1,20 @@
-export default function RestaurantSubmenu(){
+export default function RestaurantSubmenu({ mobile }){
+    if (mobile) {
+        return (
+            <div className="flex flex-col space-y-3">
+                <a href="#" className="text-white hover:text-gray-300 py-1">
+                    HOME
+                </a>
+                <a href="#" className="text-white hover:text-gray-300 py-1">
+                    ABOUT
+                </a>
+                <a href="#" className="text-white hover:text-gray-300 py-1">
+                    MENU
+                </a>
+            </div>
+        );
+    }
+    
     return(
         <>
             <a href="#" className="text-white hover:text-gray-400 relative group py-2">

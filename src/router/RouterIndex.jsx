@@ -5,6 +5,7 @@ import LoginPage from "../page/LoginPage.jsx";
 import AdminPage from "../page/AdminPage.jsx";
 import PrivateRoute from "./PrivateRoute.jsx";
 import FoodsPageAdmin from "../page/FoodsPageAdmin.jsx";
+import OrderanPageAdmin from "../page/OrderanPageAdmin.jsx";
 
 export default function RouterIndex () {
     return(
@@ -14,6 +15,7 @@ export default function RouterIndex () {
              <Route path='/customer' element={<Customer/>}/>
              <Route path='/Admin' element={<AdminPage/>}/>
              <Route path='/foods' element={<FoodsPageAdmin/>}/>
+             <Route path="/orderan-masuk" element={<OrderanPageAdmin/>}/>
            </Route>
         </Routes>
     )

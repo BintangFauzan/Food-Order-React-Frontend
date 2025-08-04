@@ -5,6 +5,7 @@ export const FoodsContext = createContext()
 
 export default function FoodsContextProvider({children}){
     const [dataFoods, setDataFoods] = useState([])
+    const [dataCart, setDataCart] = useState([])
     const [openModalPesanMakanan, setOpenModalPesanMakanan] = useState(false)
     const [editBarangId, setEditBarangId] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -154,12 +155,93 @@ const deleteDataMakanan =  async (id, onSuccess, onError) => {
     }
 }
 
+const handleCheckout = async ( onSuccess, onError) => {
+    setLoading(true)
+
+    const deliveryAddress = "Alamat Pengiriman Default";
+    const checkoutData = {
+        delivery_address: deliveryAddress,
+        items: dataCart.map(item => ({
+            food_id: item.id,
+            quantity: item.quantity
+        }))
+    };
+
+    try {
+        const response = await axios.post('http://localhost:8000/api/checkout', checkoutData, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("authToken")}`
+            }
+        });
+        console.log("SUKSES", response);
+        setNotification(true);
+        setNotificationMessage('Makanan berhasil dipesan, Mohon menunggu');
+        setTimeout(() => setNotification(false), 3000);
+        setRefreshData(true);
+        // clearCart();
+        // if (onSuccess) onSuccess();
+        if (typeof onSuccess === 'function') onSuccess();
+    } catch (err) {
+        console.log("ERROR", err, err.response);
+        let errorMessage = 'Terjadi kesalan dalam pemesanan makanan';
+        if (err.response) {
+            if (err.response.status === 422) {
+                const validationErrors = err.response.data.errors || {};
+                errorMessage = "Validation Error: " + Object.values(validationErrors).flat().join(', ');
+                console.error("Validation errors:", validationErrors);
+            } else if (err.response.status === 403) {
+                errorMessage = "Akses ditolak. Anda tidak memiliki permission.";
+            } else if (err.response.data && err.response.data.message) {
+                errorMessage = err.response.data.message;
+            }
+        } else if (err.request) {
+            errorMessage = "Tidak dapat terhubung ke server. Periksa koneksi internet Anda.";
+        }
+        setNotification(true);
+        setNotificationMessage(errorMessage);
+        setTimeout(() => setNotification(false), 3000);
+        if (typeof onError === 'function') onError();
+    } finally {
+        setLoading(false);
+    }
+}
+
 function handleEditBarang(id) {
     setEditBarangId(id);
 }
 
 function handleOpenModalMakanan() {
     setOpenModalPesanMakanan(true);
+}
+
+function addToCart(food, quantity = 1) {
+    setDataCart((prevData) => {
+        const exist = prevData.find(item => item.id === food.id)
+        if(exist){
+            return prevData.map(item => 
+                item.id === food.id ? {...item, quantity: item.quantity + quantity ,totalPrice: (item.quantity + quantity) * food.price } :item
+            );
+        }
+        return [...prevData, {...food, quantity, totalPrice: quantity * food.price}]
+    })
+}
+
+function decreaseCartQty(foodId){
+    setDataCart(prev =>
+        prev
+            .map(item => {
+                if (item.id === foodId) return {...item, quantity: item.quantity - 1, totalPrice: (item.quantity - 1) * item.price }
+                return item
+            }).filter(item => item.quantity > 0)
+    );
+}
+
+function removeFromCart(foodId){
+     setDataCart(prev => prev.filter(item => item.id !== foodId));
+}
+
+function clearCart(){
+    setDataCart([])
 }
 
 const selectedDataFoodId = dataFoods.find(food => food.id === editBarangId);
@@ -178,6 +260,12 @@ const selectedDataFoodId = dataFoods.find(food => food.id === editBarangId);
         editDataMakanan,
         handleOpenModalMakanan,
         openModalPesanMakanan,
+        dataCart,
+        addToCart,
+        decreaseCartQty,
+        removeFromCart,
+        clearCart,
+        handleCheckout
     }
     
 

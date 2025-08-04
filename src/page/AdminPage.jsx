@@ -1,3 +1,4 @@
+import DashboardCard from '../components/componentsAdmin/DashboardCard';
 import HeaderAdmin from '../components/componentsAdmin/HeaderAdmin';
 
 export default function AdminPage() {
@@ -17,54 +18,10 @@ export default function AdminPage() {
                         Home / <span className="text-gray-700 font-semibold">Dashboard</span>
                     </nav>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <div
-                            className="bg-blue-500 text-white p-6 rounded-lg shadow-md flex flex-col justify-between h-40">
-                            <div>
-                                <p className="text-4xl font-bold mb-2">150</p>
-                                <p className="text-sm">New Orders</p>
-                            </div>
-                            <div className="flex justify-between items-end">
-                                <a href="#" className="text-white text-xs font-semibold hover:underline">More info <i
-                                    className="fas fa-arrow-circle-right ml-1"></i></a>
-                                <i className="fas fa-shopping-cart text-opacity-50 text-6xl"></i>
-                            </div>
-                        </div>
-                        <div
-                            className="bg-green-500 text-white p-6 rounded-lg shadow-md flex flex-col justify-between h-40">
-                            <div>
-                                <p className="text-4xl font-bold mb-2">53%</p>
-                                <p className="text-sm">Bounce Rate</p>
-                            </div>
-                            <div className="flex justify-between items-end">
-                                <a href="#" className="text-white text-xs font-semibold hover:underline">More info <i
-                                    className="fas fa-arrow-circle-right ml-1"></i></a>
-                                <i className="fas fa-chart-bar text-opacity-50 text-6xl"></i>
-                            </div>
-                        </div>
-                        <div
-                            className="bg-yellow-500 text-white p-6 rounded-lg shadow-md flex flex-col justify-between h-40">
-                            <div>
-                                <p className="text-4xl font-bold mb-2">44</p>
-                                <p className="text-sm">User Registrations</p>
-                            </div>
-                            <div className="flex justify-between items-end">
-                                <a href="#" className="text-white text-xs font-semibold hover:underline">More info <i
-                                    className="fas fa-arrow-circle-right ml-1"></i></a>
-                                <i className="fas fa-user-plus text-opacity-50 text-6xl"></i>
-                            </div>
-                        </div>
-                        <div
-                            className="bg-red-500 text-white p-6 rounded-lg shadow-md flex flex-col justify-between h-40">
-                            <div>
-                                <p className="text-4xl font-bold mb-2">65</p>
-                                <p className="text-sm">Unique Visitors</p>
-                            </div>
-                            <div className="flex justify-between items-end">
-                                <a href="#" className="text-white text-xs font-semibold hover:underline">More info <i
-                                    className="fas fa-arrow-circle-right ml-1"></i></a>
-                                <i className="fas fa-chart-pie text-opacity-50 text-6xl"></i>
-                            </div>
-                        </div>
+                     <DashboardCard namaCard={'Orderan masuk'} bgColor={'bg-blue-500'} jumlah={120} iconCard={'fa-shopping-cart'} to={"/orderan-masuk"}/>
+                       <DashboardCard namaCard={'Bouce Rate'} bgColor={'bg-green-500'} jumlah={'12 %'} iconCard={' fa-chart-bar '}/>
+                        <DashboardCard namaCard={'User Resgitration'} bgColor={'bg-yellow-500'} jumlah={20} iconCard={'fa-user-plus'}/>
+                        <DashboardCard namaCard={'Unique Visitor'} bgColor={'bg-red-500'} jumlah={5} iconCard={'fa-chart-pie'}/>
                     </div>
                     <div className="mt-8 bg-white p-6 rounded-lg shadow-md">
                         <h2 className="text-xl font-semibold mb-4">Grafik atau Tabel Data</h2>

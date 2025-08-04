@@ -39,8 +39,12 @@ export default function LoginPage() {
             const token = response.data.authorisation.token;
             const role = response.data.user.role;
             const dataUser = response.data.user
+            const userId = response.data.user.id;
+            const userAddress = response.data.user.address
 
             localStorage.setItem('authToken', token);
+            localStorage.setItem('userId', userId);
+            localStorage.setItem('userAddress', userAddress);
             localStorage.setItem('userRole', role);
             localStorage.setItem('userData', JSON.stringify(dataUser)); // Simpan seluruh objek user
 
